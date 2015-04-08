@@ -24,7 +24,7 @@ class Solution1
 		   따라서 테스트를 수행할 때에는 아래 주석을 지우고 이 메소드를 사용하셔도 좋습니다.
 		   단, 채점을 위해 코드를 제출하실 때에는 반드시 이 메소드를 지우거나 주석 처리 하셔야 합니다.
 		 */
-		//System.setIn(new FileInputStream("res/sample_input1.txt"));
+		System.setIn(new FileInputStream("sample_input_11.txt"));
 
 		/*
 		   표준입력 System.in 으로부터 스캐너를 만들어 데이터를 읽어옵니다.
@@ -49,18 +49,41 @@ class Solution1
 					map[i][j] = tmp.charAt(0);
 				}
 			}
-
+/*
+X X X X X X X X X
+X X X H X X X X X
+X X H A H X X H X
+X X H H X X X X X
+X X X X X X X X X
+X X A H H X X X X
+X X H X X H A H X
+X X A H X X H X X
+X X H X H X X X X
+*/
 			/////////////////////////////////////////////////////////////////////////////////////////////
 			/*
 			 이 부분에 여러분의 알고리즘 구현이 들어갑니다.
 			 여러분의 정답은 AnswerN에 저장되는 것을 가정하였습니다.
 			 */
 			/////////////////////////////////////////////////////////////////////////////////////////////
-
+			for(int i = 0 ; i < N ; i++) {
+				for(int j = 0 ; j < N ; j++) {
+					if (map[i][j] == 'A') {
+						if(i-1 != -1 && map[i-1][j] == 'H') map[i-1][j] = 'X';
+						if(i+1 != N  && map[i+1][j] == 'H') map[i+1][j] = 'X';
+						if(j-1 != -1 && map[i][j-1] == 'H') map[i][j-1] = 'X';
+						if(j+1 != N  && map[i][j+1] == 'H') map[i][j+1] = 'X';
+					}
+				}
+			}
 			
-			
-			
-			
+			for(int i = 0 ; i < N ; i++) {
+				for(int j = 0 ; j < N ; j++) {
+					System.out.print(map[i][j]);
+					if (map[i][j] == 'H') ++AnswerN;
+				}
+				System.out.print('\n');
+			}
 			
 			// 표준출력(화면)으로 답안을 출력합니다.
 
