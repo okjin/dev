@@ -18,7 +18,8 @@ import java.util.Scanner;
 import java.lang.Math;
 
 public class Solution2 {
-	static char[]		Answer;
+	static char[] Answer;
+	static char[] codeword = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
 	
 	public static void main(String[] args)  throws IOException  {
 		// TODO Auto-generated method stub
@@ -44,8 +45,7 @@ public class Solution2 {
 		int		i, l;
 		String	tmp = null;
 		String  inStr = null;
-		String[] codeword = {"00000000","00000001","00000010",""};
-		
+
 		Answer = new char[200];
 		
 		/* 테스트 케이스의 수 T */
@@ -63,38 +63,48 @@ public class Solution2 {
 			
 			// Input 값 출력
 			inStr = sc.nextLine();
-			System.out.println(i + " : " + inStr);
+//			System.out.println(i + " : " + inStr);
 			
 			String key = inStr.substring(0, 3);
 			String naStr = inStr.substring(3);
 			
-			System.out.println(i + " (key) : " + key);
-			System.out.println(i + " (naStr) : " + naStr);
+//			System.out.println(i + " (key) : " + key);
+//			System.out.println(i + " (naStr) : " + naStr);
 
-			System.out.println(i + " (codeword) : " + codeword[1]);
-			
+			int ai = 0;
 			do {
 				if (naStr.length() < 8) break;
 				
 				String bf = naStr.substring(0, 8);
+				Answer[ai++] = trans(key, bf);
 				
+				naStr = naStr.substring(8);
 				
 			} while (true);
 			
 
 			/* 출력부분 */
-//			System.out.printf("#%d ", i+1);
-//			tmp = new String(Answer,0,Answer.length);
-//			System.out.printf("%s\n",tmp);
-//			for(l = 0; l < 200 ; l++)
-//				Answer[l] = 0;
+			System.out.printf("#%d ", i+1);
+			tmp = new String(Answer,0,Answer.length);
+			System.out.printf("%s\n",tmp);
+			for(l = 0; l < 200 ; l++)
+				Answer[l] = 0;
 		}
 	}
 	
-	private char trans(String in) {
+	private static char trans(String key, String code) {
+//		System.out.println("key : " + key + " trans : " + code);
 		
+		int k, c, l;
+		k = Integer.valueOf(key, 2);
+		c = Integer.valueOf(code, 2);
 		
-		return '0';
+		if (c >= k) l = c - k;
+		else l = c;
+		
+//		System.out.println("k : " + k + " c : " + c + " l : " + l);
+		
+		return codeword[l];
 	}
 	
 }
