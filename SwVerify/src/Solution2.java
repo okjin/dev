@@ -104,7 +104,7 @@ public class Solution2 {
 		
 //		System.out.println("k : " + k + " c : " + c + " l : " + l);
 		
-		return codeword[l];
+		return l > codeword.length ? '?' : codeword[l];
 	}
 	
 }
