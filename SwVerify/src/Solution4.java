@@ -81,7 +81,7 @@ class Solution4
 //				}
 //				System.out.print('\n');
 //			}
-			System.out.println("#"+test_case+" "+AnswerN);
+//			System.out.println("#"+test_case+" "+AnswerN);
 		}
 	}
 	
@@ -105,25 +105,23 @@ class Solution4
 	
 	private static boolean findRoot() {
 		ArrayList<String> al = new ArrayList<String>();
-		StringBuffer sb = new StringBuffer();
-		int x, y, cnt;
 		
 		if (Root[0][0] == 0) return false;
 		
 		for(int i = 0 ; i < N ; i++) {
 			for(int j = 0 ; j < N ; j++) {
-
+				if (i == N-1 && j == N-1) return true;
 				findNext(i, j, al);
-				
 			}
 		}
 		
-		return true;
+		return false;
 	}
 	
 	private static void findNext(int x, int y, ArrayList<String> a) {
 		StringBuffer sb = new StringBuffer();
 		for (int i=0; i<Root[x][y]; i++) {
+
 			// 동
 			if (isPrev(x,y,a) && Root[x][y] > 0 && y+1 < N && Root[x][y+1] > 0) {
 				sb.append(Integer.toString(x) + "," + Integer.toString(y+1));
@@ -136,12 +134,12 @@ class Solution4
 				a.add(sb.toString());
 				findNext(x+1, y, a);
 			}
-//			// 남
-//			if (Root[x][y] > 0 && x+1 < N && Root[x+1][y] > 0) {
-//				sb.append(Integer.toString(x+1) + "," + Integer.toString(y));
-//				a.add(sb.toString());
-//				findNext(x+1, y, a);
-//			}
+			// 서
+			if (isPrev(x,y,a) && Root[x][y] > 0 && y-1 >= 0 && Root[x][y-1] > 0) {
+				sb.append(Integer.toString(x) + "," + Integer.toString(y-1));
+				a.add(sb.toString());
+				findNext(x, y-1, a);
+			}
 		}
 	}
 	
@@ -171,7 +169,7 @@ class Solution4
 					// 동
 					if(j+1 < N && in[i][j+1] == 'O') cnt++;
 					// 서
-//					if(j-1 >= 0 && in[i][j-1] == 'O') cnt++;
+					if(j-1 >= 0 && in[i][j-1] == 'O') cnt++;
 					// 남
 					if(i+1 < N && in[i+1][j] == 'O') cnt++;
 					// 북
