@@ -26,7 +26,7 @@ class Solution4
 		   따라서 테스트를 수행할 때에는 아래 주석을 지우고 이 메소드를 사용하셔도 좋습니다.
 		   단, 채점을 위해 코드를 제출하실 때에는 반드시 이 메소드를 지우거나 주석 처리 하셔야 합니다.
 		 */
-		System.setIn(new FileInputStream("sample_input_44.txt"));
+		System.setIn(new FileInputStream("sample_input_41.txt"));
 
 		/*
 		   표준입력 System.in 으로부터 스캐너를 만들어 데이터를 읽어옵니다.
@@ -125,17 +125,17 @@ class Solution4
 		StringBuffer sb = new StringBuffer();
 		for (int i=0; i<Root[x][y]; i++) {
 			// 동
-			if (isPrev(a) && Root[x][y] > 0 && y+1 < N && Root[x][y+1] > 0) {
+			if (isPrev(x,y,a) && Root[x][y] > 0 && y+1 < N && Root[x][y+1] > 0) {
 				sb.append(Integer.toString(x) + "," + Integer.toString(y+1));
 				a.add(sb.toString());
 				findNext(x, y+1, a);
 			}
-//			// 남
-//			if (Root[x][y] > 0 && x+1 < N && Root[x+1][y] > 0) {
-//				sb.append(Integer.toString(x+1) + "," + Integer.toString(y));
-//				a.add(sb.toString());
-//				findNext(x+1, y, a);
-//			}
+			// 남
+			if (isPrev(x,y,a) && Root[x][y] > 0 && x+1 < N && Root[x+1][y] > 0) {
+				sb.append(Integer.toString(x+1) + "," + Integer.toString(y));
+				a.add(sb.toString());
+				findNext(x+1, y, a);
+			}
 //			// 남
 //			if (Root[x][y] > 0 && x+1 < N && Root[x+1][y] > 0) {
 //				sb.append(Integer.toString(x+1) + "," + Integer.toString(y));
@@ -145,18 +145,18 @@ class Solution4
 		}
 	}
 	
-	private static boolean isPrev(ArrayList<String> a) {
+	private static boolean isPrev(int x, int y, ArrayList<String> a) {
 		
 		String[] tmp;
-		int x,y;
 		if (a.size() <= 0) return true;
+		
+		tmp = a.get(a.size()-1).split(",");
+		if (Integer.toString(x).equals(tmp[0].toString()) && Integer.toString(y).equals(tmp[1].toString())) return false;
 
-		for (int i=0; i<a.size(); i++) {
-			tmp = a.get(i).split(",");
-			
-		}
-		
-		
+//		for (int i=0; i<a.size(); i++) {
+//			tmp = a.get(i).split(",");
+//			
+//		}
 		return true;
 	}
 	// 갈수 있는 길 카운트
@@ -171,19 +171,19 @@ class Solution4
 					// 동
 					if(j+1 < N && in[i][j+1] == 'O') cnt++;
 					// 서
-					if(j-1 >= 0 && in[i][j-1] == 'O') cnt++;
+//					if(j-1 >= 0 && in[i][j-1] == 'O') cnt++;
 					// 남
 					if(i+1 < N && in[i+1][j] == 'O') cnt++;
 					// 북
-					if(i-1 >= 0 && in[i-1][j] == 'O') cnt++;
+//					if(i-1 >= 0 && in[i-1][j] == 'O') cnt++;
 					
 					Root[i][j] = cnt;
 				}
 				else Root[i][j] = 0;
 				
 			}
-			
 		}
+		Root[N-1][N-1] = 1;
 		
 		printInput(Root);
 	}
