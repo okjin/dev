@@ -15,6 +15,7 @@ class Solution4
 {
 	static int N;
 	static int AnswerN;
+	static int Success = 0;
 	static int[][] Root;
 	
 	static ArrayList<String> AnsewerL;
@@ -28,7 +29,7 @@ class Solution4
 		   따라서 테스트를 수행할 때에는 아래 주석을 지우고 이 메소드를 사용하셔도 좋습니다.
 		   단, 채점을 위해 코드를 제출하실 때에는 반드시 이 메소드를 지우거나 주석 처리 하셔야 합니다.
 		 */
-		System.setIn(new FileInputStream("sample_input_41.txt"));
+		System.setIn(new FileInputStream("sample_input_42.txt"));
 
 		/*
 		   표준입력 System.in 으로부터 스캐너를 만들어 데이터를 읽어옵니다.
@@ -71,14 +72,6 @@ class Solution4
 				System.out.println("AnsewerL : " + i + " " + AnsewerL.get(i).toString());
 			}
 			
-//			for(int i = 0 ; i < N ; i++) {
-//				for(int j = 0 ; j < N ; j++) {
-//					
-//				}
-//			}
-			
-
-			
 			// 표준출력(화면)으로 답안을 출력합니다.
 //			for(int i = 0 ; i < N ; i++) {
 //				for(int j = 0 ; j < N ; j++) {
@@ -91,55 +84,72 @@ class Solution4
 		}
 	}
 	
-
-	
-	private static boolean findRoot() {
+	private static void findRoot() {
 		AnsewerL = new ArrayList<String>();
+		int x=0;
+		int y=0;
 		
-		if (Root[0][0] == 0) return false;
-		
-		for(int i = 0 ; i < N ; i++) {
-			for(int j = 0 ; j < N ; j++) {
-				if (i == N-1 && j == N-1) return true;
-				else {
-					System.out.println("findRoot " + i + ", " + j);
-					findNext(i, j, AnsewerL);
-				}
+		if (Root[0][0] > 0) {
+//			for(int i = 0 ; i < N ; i++) {
+//				for(int j = 0 ; j < N ; j++) {
+//					if (Success) break;
+//					System.out.println("findRoot " + i + ", " + j);
+//					findNext(i, j, AnsewerL);
+//				}
+//			}
+			
+			do {
+				if(Success != 0) break;
+				findNext(0, 0, AnsewerL);
+				
 			}
+			while(true) ;
 		}
 		
-		return false;
 	}
 	
-	private static void findNext(int x, int y, ArrayList<String> a) {
-		
+	private static boolean findNext(int x, int y, ArrayList<String> a) {
+		boolean rt = false;
 		System.out.println("findNext " + x + ", " + y);
 		
-		StringBuffer sb = new StringBuffer();
-		for (int i=0; i<Root[x][y]; i++) {
-
+		if (x == N-1 && y == N-1) {
+			Success = 1;
+			rt = true;
+			return rt;
+		} 
+		else if (Root[0][1] == 0 && Root[1][0] == 0) {
+			Success = -1;
+			rt = false;
+			return rt;
+		}
+		else {
+			
+			StringBuffer sb = new StringBuffer();
+	
 			// 동
-			if (isPrev(x,y,a) && Root[x][y] > 0 && y+1 < N && Root[x][y+1] > 0) {
+			if (Root[x][y] > 0 && y+1 < N && Root[x][y+1] > 0) {
 				sb.append(Integer.toString(x) + "," + Integer.toString(y+1));
 				a.add(sb.toString());
-				findNext(x, y+1, a);
+				if (findNext(x, y+1, a)) return rt;
 			}
 			// 남
-			else if (isPrev(x,y,a) && Root[x][y] > 0 && x+1 < N && Root[x+1][y] > 0) {
+			else if (Root[x][y] > 0 && x+1 < N && Root[x+1][y] > 0) {
 				sb.append(Integer.toString(x+1) + "," + Integer.toString(y));
 				a.add(sb.toString());
-				findNext(x+1, y, a);
+				if (findNext(x+1, y, a)) return rt;
 			}
 			// 서
-			else if (isPrev(x,y,a) && Root[x][y] > 0 && y-1 >= 0 && Root[x][y-1] > 0) {
-				sb.append(Integer.toString(x) + "," + Integer.toString(y-1));
-				a.add(sb.toString());
-				findNext(x, y-1, a);
-			}
+	//			else if (isPrev(x,y,a) && Root[x][y] > 0 && y-1 >= 0 && Root[x][y-1] > 0) {
+	//				sb.append(Integer.toString(x) + "," + Integer.toString(y-1));
+	//				a.add(sb.toString());
+	//				findNext(x, y-1, a);
+	//			}
 			else {
 				minusRoot(x, y, a);
 			}
 		}
+		
+		return rt;
 	}
 	
 	private static boolean minusRoot(int x, int y, ArrayList<String> a) {
@@ -153,7 +163,7 @@ class Solution4
 			x1 = new Integer(tmp[0].toString());
 			y1 = new Integer(tmp[1].toString());
 			
-			if (Root[x1][y1] > 0) Root[x1][y1] -= 1; 
+			if (Root[x1][y1] > 0) Root[x1][y1] = Root[x1][y1]-1; 
 			
 		}
 		
@@ -161,7 +171,7 @@ class Solution4
 		printInput(Root);
 		System.out.println("minusRoot End ----");
 		
-		a = new ArrayList<String>();
+		a.clear();
 		
 		return true;
 	}
