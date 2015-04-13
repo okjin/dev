@@ -90,14 +90,6 @@ class Solution4
 		int y=0;
 		
 		if (Root[0][0] > 0) {
-//			for(int i = 0 ; i < N ; i++) {
-//				for(int j = 0 ; j < N ; j++) {
-//					if (Success) break;
-//					System.out.println("findRoot " + i + ", " + j);
-//					findNext(i, j, AnsewerL);
-//				}
-//			}
-			
 			do {
 				if(Success != 0) break;
 				findNext(0, 0, AnsewerL);
@@ -127,23 +119,23 @@ class Solution4
 			StringBuffer sb = new StringBuffer();
 	
 			// µ¿
-			if (Root[x][y] > 0 && y+1 < N && Root[x][y+1] > 0) {
+			if (isPrev(x,y+1,a) && Root[x][y] > 0 && y+1 < N && Root[x][y+1] > 0) {
 				sb.append(Integer.toString(x) + "," + Integer.toString(y+1));
 				a.add(sb.toString());
 				if (findNext(x, y+1, a)) return rt;
 			}
 			// ³²
-			else if (Root[x][y] > 0 && x+1 < N && Root[x+1][y] > 0) {
+			else if (isPrev(x+1,y,a) && Root[x][y] > 0 && x+1 < N && Root[x+1][y] > 0) {
 				sb.append(Integer.toString(x+1) + "," + Integer.toString(y));
 				a.add(sb.toString());
 				if (findNext(x+1, y, a)) return rt;
 			}
 			// ¼­
-	//			else if (isPrev(x,y,a) && Root[x][y] > 0 && y-1 >= 0 && Root[x][y-1] > 0) {
-	//				sb.append(Integer.toString(x) + "," + Integer.toString(y-1));
-	//				a.add(sb.toString());
-	//				findNext(x, y-1, a);
-	//			}
+			else if (isPrev(x,y-1,a) && Root[x][y] > 0 && y-1 >= 0 && Root[x][y-1] > 0) {
+				sb.append(Integer.toString(x) + "," + Integer.toString(y-1));
+				a.add(sb.toString());
+				if (findNext(x, y-1, a)) return rt;
+			}
 			else {
 				minusRoot(x, y, a);
 			}
@@ -188,7 +180,6 @@ class Solution4
 			if (Integer.toString(x).equals(tmp[0].toString()) && Integer.toString(y).equals(tmp[1].toString())) {
 				return false;
 			}
-			
 		}
 		return true;
 	}
