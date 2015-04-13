@@ -17,6 +17,8 @@ class Solution4
 	static int AnswerN;
 	static int[][] Root;
 	
+	static ArrayList<String> AnsewerL;
+	
 	public static void main(String args[]) throws Exception
 	{
 		/*
@@ -65,6 +67,10 @@ class Solution4
 			// 갈수있는길 찾기
 			findRoot();
 			
+			for (int i=0; i < AnsewerL.size(); i++) {
+				System.out.println("AnsewerL : " + i + " " + AnsewerL.get(i).toString());
+			}
+			
 //			for(int i = 0 ; i < N ; i++) {
 //				for(int j = 0 ; j < N ; j++) {
 //					
@@ -85,33 +91,20 @@ class Solution4
 		}
 	}
 	
-	private static void printInput(char[][] in) {
-		for(int i = 0 ; i < N ; i++) {
-			for(int j = 0 ; j < N ; j++) {
-				System.out.print(in[i][j]);
-			}
-			System.out.print('\n');
-		}
-	}
-	
-	private static void printInput(int[][] in) {
-		for(int i = 0 ; i < N ; i++) {
-			for(int j = 0 ; j < N ; j++) {
-				System.out.print(in[i][j]);
-			}
-			System.out.print('\n');
-		}
-	}
+
 	
 	private static boolean findRoot() {
-		ArrayList<String> al = new ArrayList<String>();
+		AnsewerL = new ArrayList<String>();
 		
 		if (Root[0][0] == 0) return false;
 		
 		for(int i = 0 ; i < N ; i++) {
 			for(int j = 0 ; j < N ; j++) {
 				if (i == N-1 && j == N-1) return true;
-				findNext(i, j, al);
+				else {
+					System.out.println("findRoot " + i + ", " + j);
+					findNext(i, j, AnsewerL);
+				}
 			}
 		}
 		
@@ -119,6 +112,9 @@ class Solution4
 	}
 	
 	private static void findNext(int x, int y, ArrayList<String> a) {
+		
+		System.out.println("findNext " + x + ", " + y);
+		
 		StringBuffer sb = new StringBuffer();
 		for (int i=0; i<Root[x][y]; i++) {
 
@@ -129,32 +125,61 @@ class Solution4
 				findNext(x, y+1, a);
 			}
 			// 남
-			if (isPrev(x,y,a) && Root[x][y] > 0 && x+1 < N && Root[x+1][y] > 0) {
+			else if (isPrev(x,y,a) && Root[x][y] > 0 && x+1 < N && Root[x+1][y] > 0) {
 				sb.append(Integer.toString(x+1) + "," + Integer.toString(y));
 				a.add(sb.toString());
 				findNext(x+1, y, a);
 			}
 			// 서
-			if (isPrev(x,y,a) && Root[x][y] > 0 && y-1 >= 0 && Root[x][y-1] > 0) {
+			else if (isPrev(x,y,a) && Root[x][y] > 0 && y-1 >= 0 && Root[x][y-1] > 0) {
 				sb.append(Integer.toString(x) + "," + Integer.toString(y-1));
 				a.add(sb.toString());
 				findNext(x, y-1, a);
 			}
+			else {
+				minusRoot(x, y, a);
+			}
 		}
+	}
+	
+	private static boolean minusRoot(int x, int y, ArrayList<String> a) {
+		if (a.size() < 1) return true;
+		
+		String[] tmp;
+		
+		for (int i=a.size()-1; i >=0; i--) {
+			int x1, y1;
+			tmp = a.get(i).split(",");
+			x1 = new Integer(tmp[0].toString());
+			y1 = new Integer(tmp[1].toString());
+			
+			if (Root[x1][y1] > 0) Root[x1][y1] -= 1; 
+			
+		}
+		
+		System.out.println("minusRoot start ----");
+		printInput(Root);
+		System.out.println("minusRoot End ----");
+		
+		a = new ArrayList<String>();
+		
+		return true;
 	}
 	
 	private static boolean isPrev(int x, int y, ArrayList<String> a) {
 		
-		String[] tmp;
-		if (a.size() <= 0) return true;
-		
-		tmp = a.get(a.size()-1).split(",");
-		if (Integer.toString(x).equals(tmp[0].toString()) && Integer.toString(y).equals(tmp[1].toString())) return false;
+		if (a.size() < 1) return true;
 
-//		for (int i=0; i<a.size(); i++) {
-//			tmp = a.get(i).split(",");
-//			
-//		}
+		String[] tmp;
+//		tmp = a.get(a.size()-1).split(",");
+		
+		for (int i=a.size()-1; i >=0; i--) {
+			tmp = a.get(i).split(",");
+			if (Integer.toString(x).equals(tmp[0].toString()) && Integer.toString(y).equals(tmp[1].toString())) {
+				return false;
+			}
+			
+		}
 		return true;
 	}
 	// 갈수 있는 길 카운트
@@ -173,7 +198,7 @@ class Solution4
 					// 남
 					if(i+1 < N && in[i+1][j] == 'O') cnt++;
 					// 북
-//					if(i-1 >= 0 && in[i-1][j] == 'O') cnt++;
+					if(i-1 >= 0 && in[i-1][j] == 'O') cnt++;
 					
 					Root[i][j] = cnt;
 				}
@@ -184,6 +209,24 @@ class Solution4
 		Root[N-1][N-1] = 1;
 		
 		printInput(Root);
+	}
+	
+	private static void printInput(char[][] in) {
+		for(int i = 0 ; i < N ; i++) {
+			for(int j = 0 ; j < N ; j++) {
+				System.out.print(in[i][j]);
+			}
+			System.out.print('\n');
+		}
+	}
+	
+	private static void printInput(int[][] in) {
+		for(int i = 0 ; i < N ; i++) {
+			for(int j = 0 ; j < N ; j++) {
+				System.out.print(in[i][j]);
+			}
+			System.out.print('\n');
+		}
 	}
 }
 
