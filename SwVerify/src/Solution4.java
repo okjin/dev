@@ -149,7 +149,9 @@ class Solution4
 		
 		String[] tmp;
 		
+		System.out.println("minusRoot start ----");
 		for (int i=a.size()-1; i >=0; i--) {
+			System.out.println(a.get(i).toString());
 			int x1, y1;
 			tmp = a.get(i).split(",");
 			x1 = new Integer(tmp[0].toString());
@@ -163,7 +165,7 @@ class Solution4
 			
 		}
 		
-		System.out.println("minusRoot start ----");
+
 		printInput(Root);
 		System.out.println("minusRoot End ----");
 		
