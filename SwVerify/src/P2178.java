@@ -1,3 +1,8 @@
+/*
+ * 미로 탐색 (최단 거리)
+ * https://www.acmicpc.net/problem/2178
+ */
+
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
