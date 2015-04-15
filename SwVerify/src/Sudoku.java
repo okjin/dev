@@ -10,7 +10,6 @@ import java.io.FileInputStream;
 class Sudoku
 {
 	static int N;
-	static int AnswerN;
 	static int Success = 0;
 	static String[][] AnswerArr;
 	static int WrongCnt = 0;
@@ -25,7 +24,7 @@ class Sudoku
 	{
 
 		
-		System.setIn(new FileInputStream("sudoku_1.txt"));
+		System.setIn(new FileInputStream("sudoku_2.txt"));
 
 		/*
 		   표준입력 System.in 으로부터 스캐너를 만들어 데이터를 읽어옵니다.
@@ -52,17 +51,14 @@ class Sudoku
 					map[i][j] = tmp.charAt(0);
 				}
 			}
-			/////////////////////////////////////////////////////////////////////////////////////////////
-			/*
-			 이 부분에 여러분의 알고리즘 구현이 들어갑니다.
-			 여러분의 정답은 AnswerN에 저장되는 것을 가정하였습니다.
-			 */
-			/////////////////////////////////////////////////////////////////////////////////////////////
-			AnswerN = 0;
+
+			//--------------------------------------
+			
 			// Input 출력
 			printInput(map);
 
 			// 틀린 곳 찾기 tmpList 저장
+			WrongCnt = 0;
 			findWrongPosition(map);
 			
 			for (int i=0; i < TmpList.size(); i++) {
@@ -97,7 +93,7 @@ class Sudoku
 			
 			// 표준출력(화면)으로 답안을 출력합니다.
 			for(int i = 0 ; i < N ; i++) {
-				System.out.println("#"+i+" : "+AnswerArr[i][0]+" "+AnswerArr[i][1]);
+				System.out.println("#" + test_case + " : "+AnswerArr[i][0]+" "+AnswerArr[i][1]);
 			}
 		}
 	}
