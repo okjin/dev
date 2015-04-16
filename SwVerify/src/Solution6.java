@@ -29,9 +29,9 @@ import java.util.Scanner;
 class Solution6
 {
 	static int N;
+
 	static Boolean[][] Visited;
 	static Queue<Node> queue;
-	static 
 	
 	final static int A = 100;		// 배열크기
 	
