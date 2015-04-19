@@ -18,6 +18,7 @@
  */
 
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -30,10 +31,11 @@ class Solution6
 {
 	static int N;
 
-	static Boolean[][] Visited;
+	static Boolean[] Visited;
 	static Queue<Node> queue;
+	static ArrayList<String> Inmap;
 	
-	final static int A = 100;		// 배열크기
+	static int A;		// 배열크기
 	
 	private static class Node {
 		private int x, y;
@@ -44,12 +46,23 @@ class Solution6
 			this.y = y;
 			this.distance = distance;
 		}
+		
+		public Node(String tmp, int distance) {
+			String[] xy = tmp.split(",");
+			this.x = Integer.parseInt(xy[0]);
+			this.y = Integer.parseInt(xy[1]);
+			this.distance = distance;
+		}
+		
+		public void print() {
+			System.out.println("Node x " + this.x + " y " + this.y + " distance " + this.distance);
+		}
 	}
 	
 	
 	public static void main(String args[]) throws Exception
 	{
-		System.setIn(new FileInputStream("sample_input_61.txt"));
+		System.setIn(new FileInputStream("sample_input_62.txt"));
 		Scanner sc = new Scanner(System.in);
 
 		int T;
@@ -58,24 +71,48 @@ class Solution6
 		for(int test_case = 1; test_case <= T; test_case++)
 		{
 			N = sc.nextInt(); // 고객 수
-
-			char[][] map = new char[N][N];
-			Visited = new Boolean[N][N];
+			A = N + 2;		  // 배열 크기
+			sc.nextLine();
 			
-			for(int i = 0 ; i < N ; i++) {
-				for(int j = 0 ; j < N ; j++) {
-					String tmp = sc.next();
-					map[i][j] = tmp.charAt(0);
+			String inStr = sc.nextLine();
+			String inStrArr[] = inStr.split(" ");
+			
+			Inmap = new ArrayList<String>();
+			Visited = new Boolean[A];
+			
+			int pCnt = 0;	// 좌표 수
+			String pStr = "";
+			String eStr = ""; // 종료 지점
+			for (int i = 0; i < inStrArr.length; i++) {
+
+				if (i % 2 == 1) {
+					pCnt++;
+					if (pCnt == 2) eStr = pStr+","+inStrArr[i]+"";
+					else {
+						Inmap.add(pStr+","+inStrArr[i]+"");
+					}
+					pStr = "";
 				}
-			}
+				else {
+					pStr = inStrArr[i]+"";
+				}
+			} 
+			Inmap.add(eStr);
+
+			System.out.println("Inmap : " + Inmap.toString());
 			
 			initVisited();
 			
 			queue = new LinkedList<Node>();
-			queue.add(new Node(0,0));
-			Visited[0][0] = true;
+			queue.add(new Node(0,0,9999));
+			Visited[0] = true;
 			
-			DFS(0,0,map);
+			for (int i=0; i < A; i++) {
+				BFS();
+			}
+			
+			Node node1 = queue.poll();
+			node1.print();
 			
 			System.out.println("---" + queue.size());
 			while(!queue.isEmpty()) {
@@ -86,56 +123,42 @@ class Solution6
 		}
 	}
 	
-	private static void initVisited() {
-		for(int i = 0 ; i < N ; i++) {
-			for(int j = 0 ; j < N ; j++) {
-				Visited[i][j] = false;
+	private static void BFS() {
+		
+		// 출발제외(i=1), 도착 제외(A-1)에 고객 방문
+		for (int i=1; i < A-1; i++) {
+			Node node = queue.poll();
+			String tmp = Inmap.get(i);
+			int dis = calc (node, tmp);
+			
+			if (node.distance > dis) {
+				queue.add(new Node(tmp,dis));
 			}
+			else {
+				queue.add(new Node(tmp, node.distance));
+			}
+		}
+		
+		System.out.println("Arrived!!!");
+	}
+	
+	private static int calc(Node node, String tmp) {
+		String[] xy = tmp.split(",");
+		int x1 = Integer.parseInt(xy[0]);
+		int y1 = Integer.parseInt(xy[1]);
+		
+		int x = node.x > x1 ? node.x - x1 : x1 - node.x ;
+		int y = node.y > y1 ? node.y - y1 : y1 - node.y ;
+		
+		return x + y;
+	}
+	
+	private static void initVisited() {
+		for(int i = 0 ; i < Visited.length ; i++) {
+			Visited[i] = false;
 		}
 	}
 
-	private static void DFS(int x, int y, char[][] map) {
-		
-		if (x == N-1 && y == N-1) {
-			System.out.println("Arrived!!!");
-			return;
-		}
-		else {
-			// 동
-			if (y < N-1 && map[x][y+1] == 'O' && !Visited[x][y+1]) {
-				queue.add(new Node(x, y+1));
-				Visited[x][y+1] = true;
-				DFS(x, y+1, map);
-			}
-			// 남
-			else if (x < N-1 && map[x+1][y] == 'O' && !Visited[x+1][y]) {
-				queue.add(new Node(x+1, y));
-				Visited[x+1][y] = true;
-				DFS(x+1, y, map);
-			}
-			// 서
-			else if (y > 0 && map[x][y-1] == 'O' && !Visited[x][y-1]) {
-				queue.add(new Node(x, y-1));
-				Visited[x][y-1] = true;
-				DFS(x, y-1, map);
-			}
-			// 북
-			else if (x > 0 && map[x-1][y] == 'O' && !Visited[x-1][y]) {
-				queue.add(new Node(x-1, y));
-				Visited[x-1][y] = true;
-				DFS(x-1, y, map);
-			}
-			else {
-				if (x == 0 && y == 0) return;
-				initVisited();
-				map[x][y] = 'X';
-				
-				queue = new LinkedList<Node>();
-				queue.add(new Node(0,0));
-				Visited[0][0] = true;
-				DFS(0,0,map);
-			}
-		}
-	}
+
 }
 
