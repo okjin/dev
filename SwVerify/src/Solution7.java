@@ -24,7 +24,7 @@ class Solution7
 		   따라서 테스트를 수행할 때에는 아래 주석을 지우고 이 메소드를 사용하셔도 좋습니다.
 		   단, 채점을 위해 코드를 제출하실 때에는 반드시 이 메소드를 지우거나 주석 처리 하셔야 합니다.
 		 */
-		System.setIn(new FileInputStream("sample_input_71.txt"));
+		System.setIn(new FileInputStream("sample_input_72.txt"));
 
 		/*
 		   표준입력 System.in 으로부터 스캐너를 만들어 데이터를 읽어옵니다.
@@ -73,28 +73,22 @@ class Solution7
 				}
 			}
 			
-			//세로
+			//가로, 세로
 			for(int i = 0; i < N; i++) {
 				if (map[i][y] == 'R') map[i][y] = 'X';
-			}
-			
-			//가로
-			for(int i = 0; i < N; i++) {
 				if (map[x][i] == 'R') map[x][i] = 'X';
 			}
 			
-			//우상->좌하
+			
 			for(int i = 1; i < N; i++) {
+				//우상->좌하
 				if (y+i < N && x-i >= 0 && map[x-i][y+i] == 'R') {
 					map[x-i][y+i] = 'X';
 				}
 				if (x+i < N && y-i >= 0 && map[x+i][y-i] == 'R' ) {
 					map[x+i][y-i] = 'X';
 				}
-			}
-			
-			//좌상->우하
-			for(int i = 1; i < N; i++) {
+				//좌상->우하
 				if (y-i >= 0  && x-i >= 0 && map[x-i][y-i] == 'R') {
 					map[x-i][y-i] = 'X';
 				}
