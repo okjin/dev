@@ -59,6 +59,8 @@ public class P2178 {
 			final int x = location.x;
 			final int y = location.y;
 			final int distance = location.distance;
+			
+			System.out.println("x : " + x + "Y : " + y);
 
 			distances[x][y] = distance;
 
