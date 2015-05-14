@@ -1,0 +1,382 @@
+
+
+토끼 잡기 답은 "0" 인것 같네요~
+
+저는 무식하게 남영프로는 똑똑하게~~~
+
+ 
+
+ 
+
+김남영 프로 답.
+
+ 
+
+package xyz;
+
+import java.util.*;
+
+public class Rabbit {
+
+ public static void main(String args[]){
+  Scanner scIn = new Scanner(System.in);
+  int cntRabbit = Integer.parseInt(scIn.nextLine());
+  
+  String str = scIn.nextLine();
+  
+  int coord[][] = new int[20][20];
+  
+  String inArr[] = str.split(" ");
+  
+  int foxXCoord = 0;
+  int foxyCoord = 0;
+  
+  int rbXCoord[] = new int[cntRabbit];
+  int rbYCoord[] = new int[cntRabbit];
+  
+  foxXCoord=Integer.parseInt(inArr[0]);
+  foxyCoord=Integer.parseInt(inArr[1]);
+  
+  for(int i = 0;i<cntRabbit;i++){
+   rbXCoord[i] = Integer.parseInt(inArr[i*2+2]);
+   System.out.println(rbXCoord[i]);
+   
+   rbYCoord[i] = Integer.parseInt(inArr[i*2+3]);
+   System.out.println(rbYCoord[i]);
+   
+  }
+  scIn.close();
+  
+  for(int i=0;i<20;i++){
+   coord[foxXCoord-1][i] = 1;
+   
+  }
+  
+  for(int i=0;i<20;i++){
+   coord[i][foxyCoord-1] = 1;
+  }
+  
+  //좌상
+  for(int i=0;i<20;i++){
+   if((foxXCoord-1-i>=0) && (foxyCoord-1-i)>=0){
+    coord[foxXCoord-1-i][foxyCoord-1-i] = 1;
+   }
+   else{
+    break;
+   }
+  }
+
+  //우상
+  for(int i=0;i<20;i++){
+   if((foxXCoord-1-i>=0) && (foxyCoord-1+i)<20){
+    coord[foxXCoord-1-i][foxyCoord-1+i] = 1;
+   }
+   else{
+    break;
+   }
+  }
+  
+
+  //좌하
+  for(int i=0;i<20;i++){
+   if((foxXCoord-1+i<20) && (foxyCoord-1-i)>=0){
+    coord[foxXCoord-1+i][foxyCoord-1-i] = 1;
+   }
+   else{
+    break;
+   }
+  }
+
+  //우상
+  for(int i=0;i<20;i++){
+   if((foxXCoord-1+i<20) && (foxyCoord-1+i)<20){
+    coord[foxXCoord-1+i][foxyCoord-1+i] = 1;
+   }
+   else{
+    break;
+   }
+  }
+  
+  int cntCapture=0;
+  
+  for(int i=0;i<cntRabbit;i++){
+   if(coord[rbXCoord[i]-1][rbYCoord[i]-1] ==1){
+    cntCapture +=1;
+   }
+  }
+  
+  for(int i=0;i<20;i++){
+   for(int j=0;j<20;j++){
+    System.out.print(coord[i][j] + " "); 
+   }
+   System.out.println("-");
+  }
+  
+  System.out.println(cntCapture);
+  
+  
+ }
+}
+
+ 
+
+==============================================  제꺼 답 =====
+
+package xyz;
+
+//import java.awt.geom.*;
+import java.util.*;
+
+public class Test {
+
+ static int FOX = 1;
+ static int RABIT = 2;
+ 
+public static void main(String argv[]) {
+ 
+ 
+ System.out.println("Start");
+ 
+ int[][] arr1 = new int[20][20];
+ 
+ int rectRowMax = 20;
+ int rectColMax = 20;
+ 
+ for(int rowCnt=0 ; rowCnt < rectRowMax ; rowCnt++) {
+  for(int colCnt=0 ; colCnt < rectColMax ; colCnt++) {
+   arr1[rowCnt][colCnt] = 0;
+  }
+ }
+ 
+ // 6 10 5 6 2 3 15 16 9 2 16 6 
+ arr1[6][10] = FOX; // fox
+ int FoxRow = 6;
+ int FoxCol = 10;
+ int FoxSum = FoxRow + FoxCol;
+ 
+ int RabitCnt = 0;
+ arr1[5][6] = RABIT;  // rabit1
+ arr1[2][3] = RABIT;  // rabit2
+ arr1[15][16] = RABIT;  // rabit4
+ arr1[9][2] = RABIT;  // rabit3
+ arr1[16][6] = RABIT;  // rabit5
+ 
+ arr1[10][14] = RABIT;  // rabit5
+ arr1[17][10] = RABIT;  // rabit5
+ arr1[3][7] = RABIT;  // rabit5
+
+
+ int testRow;
+ int testCol;
+ int testSum;
+ int testRowSum;
+ int testColSum;
+ 
+ int Cnt = 0;
+
+ for(int rowCnt=0 ; rowCnt < rectRowMax ; rowCnt++) {
+  for(int colCnt=0 ; colCnt < rectColMax ; colCnt++) {
+   
+   if(arr1[rowCnt][colCnt] == RABIT ) {
+    if( rowCnt == FoxRow ) RabitCnt++;
+    if( colCnt == FoxCol ) RabitCnt++; 
+    
+    testRow = FoxRow;
+    testCol = FoxCol;    
+    for(int i=testRow; i<rectRowMax; i++) {  // 대각선 앞으로
+
+     testRow++;
+     testCol++;
+     System.out.println("testRow+ : " + testRow + "  tesCol+ : " + testCol );
+     
+     if( (rowCnt == testRow) && (colCnt == testCol) ) {
+      RabitCnt++;
+     }
+     
+    }
+    
+    Cnt++;
+    System.out.println("======================" + Cnt + "=====================");
+    testRow = FoxRow;
+    testCol = FoxCol;
+    for(int i=FoxRow; i>=0; i--) {  // 대각선 뒤로
+     testRow = testRow - 1;
+     testCol = testCol - 1;
+     System.out.println("testRow- : " + testRow + "  tesCol- : " + testCol );
+     
+     if( (rowCnt == testRow) && (colCnt == testCol) ) {
+      RabitCnt++;
+     }
+     
+    }
+    
+    testRow = FoxRow;
+    testCol = FoxCol;
+    for(int i=FoxRow; i>=0; i--) {  // 대각선 뒤로
+     testRow = testRow - 1;
+     testCol = testCol + 1;
+     System.out.println("testRow- : " + testRow + "  tesCol+ : " + testCol );
+     
+     if( (rowCnt == testRow) && (colCnt == testCol) ) {
+      RabitCnt++;
+     }
+     
+    }
+    
+    testRow = FoxRow;
+    testCol = FoxCol;
+    for(int i=FoxRow; i<rectRowMax; i++) {  // 대각선 뒤로
+     testRow = testRow + 1;
+     testCol = testCol - 1;
+     System.out.println("testRow+ : " + testRow + "  tesCol- : " + testCol );
+     
+     if( (rowCnt == testRow) && (colCnt == testCol) ) {
+      RabitCnt++;
+     }
+     
+    }
+    
+    
+    
+   }
+   
+  }
+ }
+ 
+
+ 
+ 
+ 
+ 
+ System.out.println("Rabit Cnt2 : " + RabitCnt );
+ 
+ System.out.println("End");
+ 
+ return;
+}
+ 
+}
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+------- Original Message -------
+
+Sender : 이용진<yong.jin.lee@samsung.com> L2(Assistant Engineer)/솔루션기술그룹(연구소_솔루션엔지니어링)/삼성SDS
+
+Date : 2015-04-20 09:57 (GMT+09:00)
+
+Title : Fwd: Re: Fwd: Fwd: SW검정 준비
+
+ 
+ 
+안녕하세요. 이용진입니다.
+
+ 
+
+4월 18일 SW 검정 시험을 보고 왔습니다. 나온 문제는 아래와 같습니다.
+
+ 
+
+개인적인 느낌은 난이도가 조금 올라간거 같습니다 ^^;
+
+ 
+
+이번주에 시험 보시는 분들 힘내세요!!!
+
+ 
+
+---------------------------------------------------------------------
+
+[1번]
+
+20x20 의 좌표를 가진 필드에 여우 한마리와 토끼 여러마리가 있다.
+
+여우가 있는 곳에서 상/하/좌/우, 대각선으로 선을 그었을때 토끼가 있으면
+
+여우는 토끼를 잡을수 있다.
+
+ 
+
+여우 1마리, 토끼 여러마리의 좌표가 주어졌을때 여우가 잡을수 있는 토끼의
+
+숫자를 구하라.
+
+ 
+
+ex)
+
+ [출력] 1마리 
+
+
+ 
+
+---------------------------------------------------------------------
+
+[2번]
+
+여러개의 도시는 여러개의 도로로 이렇게 주어진 도시는 아래와 같은 모양이 된다. 
+
+이런 도시들 중 하나의 도시가 사라졌을때 도시의 모양이 2개의 그룹으로 분리되는 도시의 숫자를 구하라
+
+ 
+
+
+
+ 
+
+ 
+
+ex)
+
+[입력]
+
+이것은 도시수 도로수 =>  N M 으로 표시된다.
+
+도로는 시작도시 도착도시 => S E 표시된다. 
+
+ 
+
+5 5
+
+1 2
+
+2 3
+
+3 4
+
+3 5
+
+4 5 
+ 
+ 
+
+ 
+
+[출력] 1 
+
+ 
+
+3번 도시가 사라지는 경우만 도시가 1,2 도시그룹과 4,5 도시 그룹으로 나뉘게 됨 
+
+---------------------------------------------------------------------
+
+ 

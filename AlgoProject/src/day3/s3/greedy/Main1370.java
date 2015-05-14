@@ -30,6 +30,15 @@ public class Main1370 {
 		System.out.println(rooms);
 		for(int i: cnums) System.out.print(i+" ");
 	}
+	
+	public static void print(ArrayList<Room> list) {
+		for (int i = 0 ;i < list.size(); i++) {
+			Room room = list.get(i);
+			
+			System.out.print(room.rnum + " " room.stime + " " + );
+
+		}
+	}
 }
 
 class Room implements Comparable<Room>{
