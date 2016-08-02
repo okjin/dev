@@ -32,6 +32,8 @@ public class ArrayListEx1 {
 		list.toArray(arr);
 		for(int k: arr){
 			System.out.print(k+" ");
+			
+			//¼öÁ¤
 		}
 	}
 
