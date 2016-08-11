@@ -2,6 +2,7 @@ package pro;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -70,27 +71,24 @@ class Solution
 					String[] preArray = (String[]) v.get(p);		
 					
 					for (int q=0; q < curArray.length; q++) {
-						preArray.remove(curArray.get(q));
+						find(preArray, curArray[q]);
 					}
-					tmpV.add(preArray);
+					tmpV.add(reSet(preArray));
 				}
 				tmpV.add(curArray);
 
 			}
 			v = tmpV;
 
-			List list1 = (List) v.get(0);
-			int min = list1.size();
-			int max = list1.size();
+			String[] list1 = (String[]) v.get(0);
+			int min = list1.length;
+			int max = list1.length;
 			
 			for (int i=1; i < v.size(); i++) {
-				List list2 = (List) v.get(i);
+				String[] list2 = (String[]) v.get(i);
 				
-				if (list2.size() < min && list2.size() > 0) min = list2.size();
-				if (list2.size() > max) max = list2.size();
-				
-//				if (((Vector) v.get(i)).size() < min && ((Vector) v.get(i)).size() > 0) min = ((Vector) v.get(i)).size();
-//				if (((Vector) v.get(i)).size() > max) max = ((Vector) v.get(i)).size();
+				if (list2.length < min && list2.length > 0) min = list2.length;
+				if (list2.length > max) max = list2.length;
 			}
 
 			int minCnt = 0;
@@ -99,12 +97,12 @@ class Solution
 			String maxStr = "";
 			
 			for(int i = 0 ; i < v.size() ; i++) {
-				List<String> tmpList = (List<String>) v.get(i);
-				if (tmpList.size() == min) {
+				String[] tmpList = (String[]) v.get(i);
+				if (tmpList.length == min) {
 					minStr = minStr + (i+1) + " " + min + " ";
 					minCnt++;
 				}
-				if (tmpList.size() == max) {
+				if (tmpList.length == max) {
 					maxStr = maxStr + (i+1) + " " + max + " ";
 					maxCnt++;
 				}
@@ -115,5 +113,27 @@ class Solution
 		}
 			
 	} // main
+
+	private static String[] reSet(String[] preArray) {
+		
+		String str = "";
+		for (int i=0; i < preArray.length; i++) {
+			if (!preArray[i].equals("")) {
+				str = str + preArray[i] + ",";
+			}
+		}
+		
+		return str.split(",");
+	}
+
+	private static void find(String[] preArray, String string) {
+		
+		for (int i=0; i < preArray.length; i++) {
+			if (preArray[i].indexOf(string) >= 0) {
+				preArray[i] = "";
+				return ;
+			}
+		}
+	}
 
 }
