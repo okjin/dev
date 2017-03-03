@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 
 
 class Solution_queue
-{
+{ 
 	static int ArraySize = 10001;
 
 	public static void main(String args[]) throws Exception
