@@ -29,7 +29,6 @@ class Solution_MaxHip
 		{
 			int inValue = sc.nextInt();
 			
-//			System.out.println(inValue);
 			if (inValue > 0) {
 				setValue(inValue);
 			}
