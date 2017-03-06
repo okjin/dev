@@ -31,10 +31,6 @@ class Solution_MaxHip
 			
 //			System.out.println(inValue);
 			if (inValue > 0) {
-//				System.out.println("set before -------------");
-//				printArray(queueArray);
-//				System.out.println("set before -------------");
-				
 				setValue(inValue);
 			}
 			else if (inValue == 0) {
