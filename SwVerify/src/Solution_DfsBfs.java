@@ -28,16 +28,21 @@ class Solution_DfsBfs {
 		N = sc.nextInt();
 		M = sc.nextInt();
 		V = sc.nextInt();
-
-		visit = new Boolean[N + 1];
+		
 		edges = new ArrayList[N + 1];
-
+		visit = new Boolean[N + 1];
+		
+		for(int i = 0; i <= N; ++i){
+			edges[i] = new ArrayList<Edge>();
+			visit[i] = false;
+		}
+		
 		for (int m = 0; m < M; m++) {
 			int u, v;
 			u = sc.nextInt();
 			v = sc.nextInt();
 			edges[u].add(new Edge(v, 1));
-			edges[v].add(new Edge(u, 1));
+//			edges[v].add(new Edge(u, 1));
 		}
 
 		dfs(V);
@@ -46,6 +51,8 @@ class Solution_DfsBfs {
 
 	private static void dfs(int node) {
 		visit[node] = true;
+		
+		System.out
 		
 		for (Edge edge : edges[node]) {
 			if (!visit[edge.next]) {
